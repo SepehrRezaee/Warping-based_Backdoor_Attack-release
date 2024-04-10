@@ -49,13 +49,13 @@ class VGG(nn.Module):
     """
     def __init__(self, init_num_filters=32, lrelu_slope=0.2, inter_fc_dim=128, nofclasses=10,nofchannels=3):
         super(VGG, self).__init__()
-        self.use_stn=use_stn
+        # self.use_stn=use_stn
         self.init_num_filters_ = init_num_filters
         self.lrelu_slope_ = lrelu_slope
         self.inter_fc_dim_ = inter_fc_dim
         self.nofclasses_ = nofclasses
-        if self.use_stn:
-            self.stn = STN()
+        # if self.use_stn:
+        #     self.stn = STN()
 
         self.features = nn.Sequential(
             nn.Conv2d(nofchannels, self.init_num_filters_ * 1, kernel_size=5, padding=2),
@@ -104,8 +104,8 @@ class VGG(nn.Module):
         )
 
     def forward(self, x):
-        if self.use_stn:
-            x = self.stn(x)
+        # if self.use_stn:
+        #     x = self.stn(x)
         x = self.features(x)
 #         print(x.shape)
         x = x.view(-1, self.init_num_filters_ *4*4)
