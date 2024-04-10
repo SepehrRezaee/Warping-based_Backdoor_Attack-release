@@ -212,10 +212,11 @@ def eval(
             preds_bd = netC(inputs_bd)
             total_bd_correct += torch.sum(torch.argmax(preds_bd, 1) == targets_bd)
 
-            
+            preds_clean = preds_clean.cpu()
             asr_clean = np.mean(np.equal(preds_clean, targets))*100
             acc_clean = total_clean_correct * 100.0 / total_sample
 
+            preds_bd = preds_bd.cpu()
             acc_bd = total_bd_correct * 100.0 / total_sample
             asr_bd = np.mean(np.equal(preds_bd, targets_bd))*100
 
