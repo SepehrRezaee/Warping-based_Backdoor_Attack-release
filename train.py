@@ -140,7 +140,7 @@ def train(netC, optimizerC, schedulerC, train_dl, noise_grid, identity_grid, tf_
         if not batch_idx % 50:
             if not os.path.exists(opt.temps):
                 os.makedirs(opt.temps)
-            path = os.path.join(opt.temps, "backdoor_image.png")
+            path = os.path.join(opt.temps, f"backdoor_image_model_number_{opt.model_num}.png")
             torchvision.utils.save_image(inputs_bd, path, normalize=True)
 
         # Image for tensorboard
@@ -183,6 +183,8 @@ def eval(
     total_bd_correct = 0
     total_cross_correct = 0
     total_ae_loss = 0
+    asr_bd = 0
+    asr_clean = 0
 
     criterion_BCE = torch.nn.BCELoss()
 
@@ -270,6 +272,8 @@ def eval(
         print(" Saving...")
         best_clean_acc = acc_clean
         best_bd_acc = acc_bd
+        best_asr_bd = asr_bd
+        best_asr_clean = asr_clean
         if opt.cross_ratio:
             best_cross_acc = acc_cross
         else:
@@ -281,6 +285,8 @@ def eval(
             "best_clean_acc": best_clean_acc,
             "best_bd_acc": best_bd_acc,
             "best_cross_acc": best_cross_acc,
+            "best_asr_bd": best_asr_bd,
+            "best_asr_clean": best_asr_clean,
             "epoch_current": epoch,
             "identity_grid": identity_grid,
             "noise_grid": noise_grid,
