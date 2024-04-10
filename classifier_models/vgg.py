@@ -113,7 +113,7 @@ class VGG(nn.Module):
         return x
 
 
-def create_vgg(vgg_name, num_classes=10):
+def create_vgg():
     return VGG()
 
 
