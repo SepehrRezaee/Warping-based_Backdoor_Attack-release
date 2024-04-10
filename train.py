@@ -80,10 +80,6 @@ def train(netC, optimizerC, schedulerC, train_dl, noise_grid, identity_grid, tf_
         inputs_bd = F.grid_sample(inputs[:num_bd], grid_temps.repeat(num_bd, 1, 1, 1), align_corners=True)
         if opt.attack_mode == "all2one":
             targets_bd = torch.ones_like(targets[:num_bd]) * opt.target_label
-            print(num_bd)
-            print(targets[:num_bd])
-            print(targets.shape)
-            print(targets_bd.shape)
             break
         if opt.attack_mode == "all2all":
             targets_bd = torch.remainder(targets[:num_bd] + 1, opt.num_classes)
