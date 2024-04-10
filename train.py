@@ -212,13 +212,35 @@ def eval(
             preds_bd = netC(inputs_bd)
             total_bd_correct += torch.sum(torch.argmax(preds_bd, 1) == targets_bd)
 
-            preds_clean = preds_clean.cpu()
-            asr_clean = np.mean(np.equal(preds_clean, targets))*100
+            # preds_clean = preds_clean.cpu()
+            # asr_clean = np.mean(np.equal(preds_clean, targets))*100
             acc_clean = total_clean_correct * 100.0 / total_sample
 
-            preds_bd = preds_bd.cpu()
+            # preds_bd = preds_bd.cpu()
             acc_bd = total_bd_correct * 100.0 / total_sample
-            asr_bd = np.mean(np.equal(preds_bd, targets_bd))*100
+            # asr_bd = np.mean(np.equal(preds_bd, targets_bd))*100
+
+
+            # Convert tensors to CPU for NumPy operations
+            preds_clean_cpu = torch.argmax(preds_clean, 1).cpu()
+            targets_cpu = targets.cpu()
+
+            # Compute the attack success rate (ASR) for clean data
+            asr_clean = np.mean(np.equal(preds_clean_cpu.numpy(), targets_cpu.numpy())) * 100
+
+            # Calculate clean accuracy
+            acc_clean = total_clean_correct * 100.0 / total_sample
+
+            # Convert tensors to CPU for NumPy operations for backdoor data
+            preds_bd_cpu = torch.argmax(preds_bd, 1).cpu()
+            targets_bd_cpu = targets_bd.cpu()
+
+            # Compute the ASR for backdoor data
+            asr_bd = np.mean(np.equal(preds_bd_cpu.numpy(), targets_bd_cpu.numpy())) * 100
+
+            # Calculate backdoor accuracy
+            acc_bd = total_bd_correct * 100.0 / total_sample
+
 
             # Evaluate cross
             if opt.cross_ratio:
