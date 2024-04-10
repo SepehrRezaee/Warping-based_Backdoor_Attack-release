@@ -212,8 +212,12 @@ def eval(
             preds_bd = netC(inputs_bd)
             total_bd_correct += torch.sum(torch.argmax(preds_bd, 1) == targets_bd)
 
+            
+            asr_clean = np.mean(np.equal(preds_clean, targets))*100
             acc_clean = total_clean_correct * 100.0 / total_sample
+
             acc_bd = total_bd_correct * 100.0 / total_sample
+            asr_bd = np.mean(np.equal(preds_bd, targets_bd))*100
 
             # Evaluate cross
             if opt.cross_ratio:
@@ -224,19 +228,19 @@ def eval(
                 acc_cross = total_cross_correct * 100.0 / total_sample
 
                 info_string = (
-                    "Clean Acc: {:.4f} - Best: {:.4f} | Bd Acc: {:.4f} - Best: {:.4f} | Cross: {:.4f}".format(
-                        acc_clean, best_clean_acc, acc_bd, best_bd_acc, acc_cross, best_cross_acc
+                    "Clean Acc: {:.4f} - Clean ASR {:.4f} - Best: {:.4f} | Bd Acc: {:.4f} - Bd ASR {:.4f} - Best: {:.4f} | Cross: {:.4f}".format(
+                        acc_clean, asr_clean, best_clean_acc, acc_bd, asr_bd, best_bd_acc, acc_cross, best_cross_acc
                     )
                 )
             else:
-                info_string = "Clean Acc: {:.4f} - Best: {:.4f} | Bd Acc: {:.4f} - Best: {:.4f}".format(
-                    acc_clean, best_clean_acc, acc_bd, best_bd_acc
+                info_string = "Clean Acc: {:.4f} - Clean ASR {:.4f} - Best: {:.4f} | Bd Acc: {:.4f} - Bd ASR {:.4f} - Best: {:.4f}".format(
+                    acc_clean, asr_clean, best_clean_acc, acc_bd, asr_bd, best_bd_acc
                 )
             progress_bar(batch_idx, len(test_dl), info_string)
 
     # tensorboard
     if not epoch % 1:
-        tf_writer.add_scalars("Test Accuracy", {"Clean": acc_clean, "Bd": acc_bd}, epoch)
+        tf_writer.add_scalars("Test Accuracy", {"Clean": asr_clean, "Bd": asr_bd}, epoch)
 
     # Save checkpoint
     if acc_clean > best_clean_acc or (acc_clean > best_clean_acc - 0.1 and acc_bd > best_bd_acc):
