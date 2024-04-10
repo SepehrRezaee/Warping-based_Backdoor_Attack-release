@@ -69,7 +69,6 @@ def train(netC, optimizerC, schedulerC, train_dl, noise_grid, identity_grid, tf_
 
         # Create backdoor data
         num_bd = int(bs * rate_bd)
-        print(num_bd)
         num_cross = int(num_bd * opt.cross_ratio)
         grid_temps = (identity_grid + opt.s * noise_grid / opt.input_height) * opt.grid_rescale
         grid_temps = torch.clamp(grid_temps, -1, 1)
@@ -81,6 +80,9 @@ def train(netC, optimizerC, schedulerC, train_dl, noise_grid, identity_grid, tf_
         inputs_bd = F.grid_sample(inputs[:num_bd], grid_temps.repeat(num_bd, 1, 1, 1), align_corners=True)
         if opt.attack_mode == "all2one":
             targets_bd = torch.ones_like(targets[:num_bd]) * opt.target_label
+            print(num_bd)
+            print(targets[:num_bd])
+            print(targets)
         if opt.attack_mode == "all2all":
             targets_bd = torch.remainder(targets[:num_bd] + 1, opt.num_classes)
 
@@ -283,7 +285,7 @@ def eval(
             "netC": netC.state_dict(),
             "model_name": "VGG_Customized",
             "ratio_bd": opt.pc,
-            "target_label": 
+            "target_label": opt.target_label,
             "schedulerC": schedulerC.state_dict(),
             "optimizerC": optimizerC.state_dict(),
             "best_clean_acc": best_clean_acc,
