@@ -69,6 +69,7 @@ def train(netC, optimizerC, schedulerC, train_dl, noise_grid, identity_grid, tf_
 
         # Create backdoor data
         num_bd = int(bs * rate_bd)
+        print(num_bd)
         num_cross = int(num_bd * opt.cross_ratio)
         grid_temps = (identity_grid + opt.s * noise_grid / opt.input_height) * opt.grid_rescale
         grid_temps = torch.clamp(grid_temps, -1, 1)
@@ -280,6 +281,9 @@ def eval(
             best_cross_acc = torch.tensor([0])
         state_dict = {
             "netC": netC.state_dict(),
+            "model_name": "VGG_Customized",
+            "ratio_bd": opt.pc,
+            "target_label": 
             "schedulerC": schedulerC.state_dict(),
             "optimizerC": optimizerC.state_dict(),
             "best_clean_acc": best_clean_acc,
@@ -344,7 +348,7 @@ def main():
     # Load pretrained model
     mode = opt.attack_mode
     opt.ckpt_folder = os.path.join(opt.checkpoints, opt.dataset)
-    opt.ckpt_path = os.path.join(opt.ckpt_folder, "{}_{}_model_number{}_morph.pth.tar".format(opt.dataset, mode, opt.model_num))
+    opt.ckpt_path = os.path.join(opt.ckpt_folder, "VGG_Customized_{}_{}_model_number_{}_morph.pth.tar".format(opt.dataset, mode, opt.model_num))
     opt.log_dir = os.path.join(opt.ckpt_folder, "log_dir")
     if not os.path.exists(opt.log_dir):
         os.makedirs(opt.log_dir)
