@@ -226,7 +226,7 @@ def eval(
             targets_cpu = targets.cpu()
 
             # Compute the attack success rate (ASR) for clean data
-            asr_clean = np.mean(np.equal(preds_clean_cpu.numpy(), targets_cpu.numpy())) * 100
+            asr_clean = np.mean(np.equal(preds_clean_cpu.numpy(), targets_bd_cpu.numpy())) * 100
 
             # Calculate clean accuracy
             acc_clean = total_clean_correct * 100.0 / total_sample
