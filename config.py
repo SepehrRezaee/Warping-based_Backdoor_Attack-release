@@ -12,12 +12,13 @@ def get_arguments():
 
     parser.add_argument("--dataset", type=str, default="cifar10")
     parser.add_argument("--attack_mode", type=str, default="all2one")
+    parser.add_argument("--model_num", type=str, default=1)
 
     parser.add_argument("--bs", type=int, default=128)
     parser.add_argument("--lr_C", type=float, default=1e-2)
     parser.add_argument("--schedulerC_milestones", type=list, default=[100, 200, 300, 400])
     parser.add_argument("--schedulerC_lambda", type=float, default=0.1)
-    parser.add_argument("--n_iters", type=int, default=1000)
+    parser.add_argument("--n_iters", type=int, default=30)
     parser.add_argument("--num_workers", type=float, default=6)
 
     parser.add_argument("--target_label", type=int, default=0)

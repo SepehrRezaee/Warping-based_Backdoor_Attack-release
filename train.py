@@ -338,7 +338,7 @@ def main():
     # Load pretrained model
     mode = opt.attack_mode
     opt.ckpt_folder = os.path.join(opt.checkpoints, opt.dataset)
-    opt.ckpt_path = os.path.join(opt.ckpt_folder, "{}_{}_morph.pth.tar".format(opt.dataset, mode))
+    opt.ckpt_path = os.path.join(opt.ckpt_folder, "{}_{}_morph.pth.tar".format(opt.dataset, mode, opt.model_num))
     opt.log_dir = os.path.join(opt.ckpt_folder, "log_dir")
     if not os.path.exists(opt.log_dir):
         os.makedirs(opt.log_dir)
@@ -385,7 +385,7 @@ def main():
             json.dump(opt.__dict__, f, indent=2)
         tf_writer = SummaryWriter(log_dir=opt.log_dir)
 
-    for epoch in range(epoch_current, opt.n_iters):
+    for epoch in range(epoch_current, 30):
         print("Epoch {}:".format(epoch + 1))
         train(netC, optimizerC, schedulerC, train_dl, noise_grid, identity_grid, tf_writer, epoch, opt)
         best_clean_acc, best_bd_acc, best_cross_acc = eval(
