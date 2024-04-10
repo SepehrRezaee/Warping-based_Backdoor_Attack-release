@@ -44,8 +44,16 @@ def init_params(net):
                 init.constant(m.bias, 0)
 
 
-_, term_width = os.popen("stty size", "r").read().split()
-term_width = int(term_width)
+# _, term_width = os.popen("stty size", "r").read().split()
+# term_width = int(term_width)
+
+try:
+    _, term_width = os.popen("stty size", "r").read().split()
+except ValueError:  # Catch the error if `stty size` does not return two values
+    term_width = "80"  # Set a default terminal width if the command fails
+
+term_width = int(term_width)  # Ensure the term_width is an integer for further processing
+
 
 TOTAL_BAR_LENGTH = 65.0
 last_time = time.time()
