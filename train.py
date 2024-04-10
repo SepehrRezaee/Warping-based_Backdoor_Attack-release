@@ -8,7 +8,7 @@ import numpy as np
 import torch
 import torch.nn.functional as F
 import torchvision
-from classifier_models import PreActResNet18, ResNet18, VGG
+from classifier_models import PreActResNet18, ResNet18, create_vgg
 from networks.models import Denormalizer, NetC_MNIST, Normalizer
 from torch import nn
 from torch.utils.tensorboard import SummaryWriter
