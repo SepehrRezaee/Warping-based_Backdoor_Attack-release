@@ -8,7 +8,7 @@ import numpy as np
 import torch
 import torch.nn.functional as F
 import torchvision
-from classifier_models import PreActResNet18, ResNet18
+from classifier_models import PreActResNet18, ResNet18, VGG
 from networks.models import Denormalizer, NetC_MNIST, Normalizer
 from torch import nn
 from torch.utils.tensorboard import SummaryWriter
@@ -23,7 +23,7 @@ def get_model(opt):
     schedulerC = None
 
     if opt.dataset == "cifar10" or opt.dataset == "gtsrb":
-        netC = PreActResNet18(num_classes=opt.num_classes).to(opt.device)
+        netC = VGG(num_classes=opt.num_classes).to(opt.device)
     if opt.dataset == "celeba":
         netC = ResNet18().to(opt.device)
     if opt.dataset == "mnist":
