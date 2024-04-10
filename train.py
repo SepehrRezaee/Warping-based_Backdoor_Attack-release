@@ -338,7 +338,7 @@ def main():
     # Load pretrained model
     mode = opt.attack_mode
     opt.ckpt_folder = os.path.join(opt.checkpoints, opt.dataset)
-    opt.ckpt_path = os.path.join(opt.ckpt_folder, "{}_{}_morph.pth.tar".format(opt.dataset, mode, opt.model_num))
+    opt.ckpt_path = os.path.join(opt.ckpt_folder, "{}_{}_model_number{}_morph.pth.tar".format(opt.dataset, mode, opt.model_num))
     opt.log_dir = os.path.join(opt.ckpt_folder, "log_dir")
     if not os.path.exists(opt.log_dir):
         os.makedirs(opt.log_dir)
