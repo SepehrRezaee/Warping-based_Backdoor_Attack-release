@@ -394,7 +394,7 @@ def main():
             json.dump(opt.__dict__, f, indent=2)
         tf_writer = SummaryWriter(log_dir=opt.log_dir)
 
-    for epoch in range(epoch_current, 1):
+    for epoch in range(epoch_current, 30):
         print("Epoch {}:".format(epoch + 1))
         train(netC, optimizerC, schedulerC, train_dl, noise_grid, identity_grid, tf_writer, epoch, opt)
         best_clean_acc, best_bd_acc, best_cross_acc = eval(
