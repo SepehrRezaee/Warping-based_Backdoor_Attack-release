@@ -25,10 +25,10 @@ def get_model(opt):
     if opt.dataset == "cifar10" or opt.dataset == "gtsrb":
         netC = create_vgg().to(opt.device)
         # netC = PreActResNet18(num_classes=opt.num_classes).to(opt.device)
-    if opt.dataset == "celeba":
-        netC = ResNet18().to(opt.device)
-    if opt.dataset == "mnist":
-        netC = NetC_MNIST().to(opt.device)
+    # if opt.dataset == "celeba":
+    #     netC = ResNet18().to(opt.device)
+    # if opt.dataset == "mnist":
+    #     netC = NetC_MNIST().to(opt.device)
 
     # Optimizer
     optimizerC = torch.optim.SGD(netC.parameters(), opt.lr_C, momentum=0.9, weight_decay=5e-4)
